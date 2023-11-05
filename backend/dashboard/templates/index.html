@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard</title>
+        {% load static %}
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'style.css' %}" />
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> </head>
+    </head>
+    <style>
+        * {
+            font-family: "Open Sans", sans-serif;
+        }
+    </style>
+    <body class="bg-slate-800 text-slate-300 p-8">
+        <div
+            class="border-2 border-transparent transition-all hover:border-slate-900 rounded-md bg-slate-600 p-8 flex flex-col gap-4 justify-start items-start"
+        >
+            <h1 class="text-4xl font-bold text-slate-100">Hello!</h1>
+            <p class="leading-7 text-lg">
+                You can use this dashboard to create new project and manage them. The project can have upto two html page content store.
+            </p>
+            <a
+                href="/dashboard/create-project"
+                class="bg-fuchsia-600 font-bold text-lg px-6 py-2 text-white rounded-md"
+            >
+                Create Project
+            </a>
+        </div>
+        <div class="mt-14">
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold text-slate-100">
+                    Previous Projects!
+                </h1>
+            </div>
+            <div class="mt-4 flex gap-5 justify-start flex-wrap">
+                {% if projects %} {% for project in projects %}
+                <div
+                    class="border-2 border-transparent transition-all hover:border-slate-900 flex flex-col gap-3 lg:w-[32%] md:w-[47%] w-full rounded-md p-4 bg-slate-700 justify-between"
+                >
+                    <h3 class="text-2xl text-white">{{ project.name }}</h3>
+                    <p class="leading-6 ">{{ project.description }}</p>
+                    <div class="mt-2">
+                        <button
+                            class="px-6 py-2 text-white bg-green-600 rounded-md"
+                        >
+                            <a class="font-bold text-lg" href="dashboard/project?id={{ project.id }}">
+                                view
+                            </a>
+                        </button>
+                        <button
+                            projectId="{{ project.id }}"
+                            class="del px-6 py-2 text-white bg-slate-900 rounded-md"
+                        >
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %} {% endif %}
+            </div>
+        </div>
+    </body>
+
+    {% csrf_token %}
+    <script>
+        const token = document.querySelector(
+            "[name=csrfmiddlewaretoken]"
+        ).value;
+    </script>
+
+    <script src="{% static 'js/dashboard.js' %}"></script>
+</html>

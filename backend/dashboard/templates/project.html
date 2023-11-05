@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Project</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'style.css' %}" />
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> </head>
+
+    <style>
+        *{
+            font-family: 'Open Sans', sans-serif;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+        }
+
+        input:checked + .slider {
+            background-color: rgb(192 38 211);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px rgb(192 38 211);
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+
+    <body class="bg-slate-800 text-slate-300 p-8">
+        <div class="flex flex-wrap items-start justify-start gap-8">
+            <button class="px-6 py-2 text-white bg-green-900 rounded-md">
+                <a href="/dashboard"><i class="fa fa-arrow-left"></i></a>
+            </button>
+            <div class="w-full lg:w-[80%]">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-4xl font-bold mb-8 text-white">{{ project.name }}</h1>
+                    <a
+                        href="/page?id={{project.id}}"
+                        class="font-bold text-lg bg-fuchsia-600 px-6 py-2 text-white rounded-md"
+                    >
+                        View Page
+                    </a>
+                </div>
+                <div>
+                    <p class="text-base" >{{ project.description }}</p>
+                </div>
+                <div class="my-4 font-bold text-white pt-4 border-t-2 border-slate-600 text-lg">
+                    Product:-
+                </div>
+                <div class="flex flex-wrap gap-4" >
+                    <input
+                        type="text"
+                        class="changeable px-4 py-2 bg-slate-900 focus:bg-fuchsia-600 focus:bg-opacity-25 transition-all focus:text-white border-b-2 border-transparent outline-none focus:border-fuchsia-600"
+                        value="{{ project.product_name }}"
+                        placeholder="Product Name"
+                        id="productName"
+                    />
+                    <input
+                        type="text"
+                        id="productDesc"
+                        class="px-4 changeable py-2 bg-slate-900 focus:bg-fuchsia-600 focus:bg-opacity-25 transition-all focus:text-white border-b-2 border-transparent outline-none focus:border-fuchsia-600"
+                        value="{{ project.product_description }}"
+                        placeholder="Product Description"
+                    />
+                </div>
+                <div class="my-4 font-bold text-white pt-4 border-t-2 border-slate-600 text-lg">
+                    Additional Details:-
+                </div>
+                <div class="flex flex-wrap gap-4" >
+                    <input
+                        type="text"
+                        class="px-4 changeable py-2 bg-slate-900 focus:bg-fuchsia-600 focus:bg-opacity-25 transition-all focus:text-white border-b-2 border-transparent outline-none focus:border-fuchsia-600"
+                        value="{{ project.user_ideas }}"
+                        placeholder="User Ideas"
+                        id="userIdeas"
+                    />
+                    <input
+                        type="text"
+                        id="trafficDesc"
+                        class="px-4 changeable py-2 bg-slate-900 focus:bg-fuchsia-600 focus:bg-opacity-25 transition-all focus:text-white border-b-2 border-transparent outline-none focus:border-fuchsia-600"
+                        value="{{ project.traffic_description }}"
+                        placeholder="Traffic Description"
+                    />
+                    <input
+                        type="text"
+                        class="px-4 changeable py-2 bg-slate-900 focus:bg-fuchsia-600 focus:bg-opacity-25 transition-all focus:text-white border-b-2 border-transparent outline-none focus:border-fuchsia-600"
+                        value="{{ project.base_landing_page.conversion_rate }}"
+                        placeholder="Conversion Rate"
+                        id="conversionRate"
+                    />
+                </div>
+                <div
+                    class="flex flex-wrap lg:flex-nowrap justify-between items-start my-4 pt-4 border-t-2 border-slate-600 text-lg"
+                >
+                    <p class="font-bold text-white" >Landing Page:-</p>
+                    <div class="flex gap-4">
+                        <p>Use A&B Testing</p>
+                        <label class="switch">
+                            <input
+                                id="ABswitch"
+                                type="checkbox"
+                                {% if project.base_landing_page2.html is not none %}
+                                    checked
+                                {% endif %}
+                            />
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="flex justify-between md:flex-nowrap flex-wrap">
+                    <div
+                        style="width: 
+                    {% if project.base_landing_page2.html is none %}
+                        100%
+                    {% else %} 
+                        47%
+                    {% endif %}
+                    
+                    ;"
+                        class="transition-all"
+                    >
+                        <textarea
+                            type="text"
+                            class="px-4 changeable w-full h-52 py-2 bg-slate-900 focus:bg-fuchsia-600 focus:bg-opacity-25 transition-all focus:text-white border-b-2 border-transparent outline-none focus:border-fuchsia-600"
+                            placeholder="html"
+                            id="pageHtml"
+                        >
+{{ project.base_landing_page.html }}
+                    </textarea
+                        >
+                        <div
+                            style="display: 
+                    {% if project.base_landing_page2.html is none %}
+                        none
+                    {% else %} 
+                        flex
+                    {% endif %}
+                    
+                            "
+                            class="mt-4 flex justify-between items-center"
+                        >
+                            <p>[A] testing</p>
+                            <a
+                                href="/page?id={{project.id}}&split=a"
+                                class="font-bold text-lg bg-fuchsia-600 px-6 py-2 text-white rounded-md"
+                            >
+                                View Page
+                            </a>
+                        </div>
+                    </div>
+                    <div
+                        style="display: 
+                    
+                    {% if project.base_landing_page2.html is none %}
+                        none
+                    {% else %} 
+                        block
+                    {% endif %}
+                    
+                    ;"
+                        class="w-[47%]"
+                    >
+                        <textarea
+                            type="text"
+                            class="px-4 changeable w-full h-52 py-2 bg-slate-900 focus:bg-fuchsia-600 focus:bg-opacity-25 transition-all focus:text-white border-b-2 border-transparent outline-none focus:border-fuchsia-600"
+                            placeholder="html"
+                            id="pageHtml2"
+                        >
+                    {{ project.base_landing_page2.html }}
+                </textarea
+                        >
+                        <div class="mt-4 flex justify-between items-center">
+                            <p>[B] testing</p>
+                            <a
+                                href="/page?id={{project.id}}&split=b"
+                                class="font-bold text-lg bg-fuchsia-600 px-6 py-2 text-white rounded-md"
+                            >
+                                View Page
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <button
+                    style="display: none"
+                    id="save_changes"
+                    class="font-bold text-lg mt-4 bg-fuchsia-600 px-6 py-2 text-white rounded-md"
+                >
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </body>
+
+    {% csrf_token %}
+    <script>
+        const token = document.querySelector(
+            "[name=csrfmiddlewaretoken]"
+        ).value;
+    </script>
+
+    <script src="{% static 'js/project-page.js' %}"></script>
+</html>
