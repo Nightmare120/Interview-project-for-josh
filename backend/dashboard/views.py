@@ -98,6 +98,6 @@ def show_html_page(request):
 
 def getHtmlBySplit(id,split):
     instance = Project.objects.get(id=id)
-    if split == 'a':
-        return instance.base_landing_page.html
-    return instance.base_landing_page2.html
+    if split == 'b':
+        return instance.base_landing_page2.html
+    return instance.base_landing_page.html
